@@ -1,0 +1,13 @@
+defaults: &DEFAULTS
+  title_text: "Gary's Foods"
+  store_open:  "06:00"
+  store_close:  "22:00"
+  
+development:
+  <<: *DEFAULTS
+
+test:
+  <<: *DEFAULTS
+  
+production:
+  <<: *DEFAULTS

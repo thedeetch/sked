@@ -1,0 +1,33 @@
+<div class="row">
+	<%= select_date Time.now, {:order => [:day, :month, :year]}, {:class => "two"} %>
+</div>
+<div class="row">
+	<select class="two">
+		<% @departments.each do |department|%>
+		<option><%= @department.name %></option>
+		<% end %>
+	</select>
+</div>
+<div class="row">
+	<table>
+		<tr>
+			<th>Employee</th>
+			<th>ID</th>
+		</tr>
+		<% @department.employees.each do |employee| %>
+		<tr>
+			<td><%= link_to employee.display_name, employee %></td>
+			<td><%= employee.id %></td>
+		</tr>
+		<% end %>
+	</table>
+</div>
+
+<div class="row">
+	<%= select_tag "Employees", options_from_collection_for_select(@employees, "id", "display_name") %>
+	<%= @department.id %>
+	<%= form_for @department do |f| %>
+	<%= select_tag "Employees", options_from_collection_for_select(@employees, "id", "display_name") %>
+	<%= f.submit "Add Employee" %>
+	<% end %>
+</div>
