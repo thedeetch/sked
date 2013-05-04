@@ -1,0 +1,74 @@
+<% tab "departments" %>
+<h3>Department Details</h3>
+
+<div class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label">ID:</label>
+		<div class="controls">
+			<%= content_tag :span, @department.id, {:class => "uneditable-input"} %></label>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">Name:</label>
+		<div class="controls">
+			<%= content_tag :span, @department.name, {:class => "uneditable-input"} %></label>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">Open:</label>
+		<div class="controls">
+			<%= content_tag :span, @department.open_time, {:class => "uneditable-input"} %></label>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label">Close:</label>
+		<div class="controls">
+			<%= content_tag :span, @department.close_time, {:class => "uneditable-input"} %></label>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<%= link_to 'Delete', @department, {method: :delete, :confirm => "Are you sure?", :class => "btn btn-danger"}  %>
+			<%= link_to 'Edit', edit_department_path(@department), :class => "btn" %>
+		</div>
+	</div>
+</div>
+
+<h5>Employees</h5>
+
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th></th>
+	</tr>
+	<% @department.employees.each do |employee| %>
+	<tr>
+		<%= form_for(@department, :url => department_employee_remove_url(@department, :employee_id => employee.id), method: :delete) do |f| %>
+		<td><%= link_to employee.id, employee %></td>
+		<td><%= link_to employee.display_name, employee %></td>
+		<td>
+			<%= button_tag :type => "submit", :class => "btn btn-danger" do %>
+				<i class="icon-trash"></i>
+			<% end %>
+		</td>
+		<% end %>
+	</tr>
+	<% end %>
+	<tr>
+		<%= form_for(@department, :url => department_employee_add_url(@department)) do |f| %> <td></td>
+		<td><%= f.collection_select :employees, Employee.all - @department.employees, :id, :display_name %></td>
+		<td>
+			<%= button_tag :type => "submit", :class => "btn btn-success" do %>
+				<i class="icon-plus"></i>
+			<% end %>
+		</td>
+		<% end %>
+	</tr>
+</table>
+
+

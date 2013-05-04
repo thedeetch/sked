@@ -1,0 +1,70 @@
+<% tab "employees" %>
+<%= form_for(@employee) do |f| %>
+
+<div class="form-horizontal">
+	<div class="control-group">
+		<%= f.label :id, {:class => "control-label"}%>
+		<div class="controls">
+			<%= content_tag :span, @employee.id, {:class => "uneditable-input"} %>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<%= f.label :first_name, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :first_name %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :middle_name, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :middle_name %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :last_name, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :last_name %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :address, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :address %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :city, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :city %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :state, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :state %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<%= f.label :zip, {:class => "control-label"}%>
+		<div class="controls">
+			<%= f.text_field :zip %>
+		</div>
+	</div>
+	
+	<div class="control-group">
+		<div class="controls">
+			<%= link_to_if @employee.id?, 'Cancel', @employee, {:class => "btn"} do %>
+		    	<%= link_to "Cancel", employees_path, :class => "btn" %>
+		    <% end %>
+			<%= f.submit 'Save', :class => "btn btn-success"%>
+		</div>
+	</div>
+</div>
+<% end %>
