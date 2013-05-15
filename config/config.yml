@@ -1,5 +1,5 @@
 defaults: &DEFAULTS
-  title_text: "Gary's Foods"
+  title_text: "Sked"
   store_open:  "06:00"
   store_close:  "22:00"
   

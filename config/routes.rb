@@ -1,4 +1,4 @@
-Garys::Application.routes.draw do
+Sked::Application.routes.draw do
   get "home/index"
   
   match "/shifts/(:department_id)/(:date)" => 'shift#index', :as => :shift

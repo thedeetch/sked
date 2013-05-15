@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Garys::Application.load_tasks
+Sked::Application.load_tasks
