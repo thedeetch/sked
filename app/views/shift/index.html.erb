@@ -40,6 +40,7 @@
 			columnFormat: "HH<br>mm",
 			resources: "/shift/resources/<%= @department.id %>/<%= @date.strftime(@urlFormat) %>",
 			events: "/shift/<%= @department.id %>/<%= @date.strftime(@urlFormat) %>.json",
+			ignoreTimezone: true,
 			eventDataTransform: function (eventData) { 
 				eventData.title = eventData.department_id;
 				eventData.allDay = false;
