@@ -78,7 +78,28 @@
 			eventClick: function(calEvent, jsEvent, view) {
         	    // change the border color just for fun
         		$(this).css('border-color', 'red');
-			}
+			},
+			eventMouseover: function ( event, jsEvent, view ) 
+			{
+				var close = $('<div/>', {
+					id: 'deleteEvent',
+					href: '#'
+				});
+				$(close).append($('<i/>', {class: 'icon-remove'}));
+				$(close).click(function () {
+					$.ajax(
+						{
+							url: "/shift/" + event.id + ".json",
+							type: "DELETE",
+						});
+					$('#calendar').fullCalendar('refetchEvents');
+				});
+				$(this).find('.fc-event-inner').append(close);
+			},
+			eventMouseout: function ( event, jsEvent, view ) 
+			{
+				$('#deleteEvent').remove();
+			},
 		});
 		//$('#calendar th').each(function () {
     	//	$(this).css({"width": ""});
@@ -86,4 +107,6 @@
     	//$(window).off("resize");
     	$('.fc-grid table').addClass("table table-striped table-bordered table-condensed");
 	});
+
+
 </script>

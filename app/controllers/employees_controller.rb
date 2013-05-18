@@ -80,4 +80,21 @@ class EmployeesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # GET /employees/1/hours/?date=20100305
+  def hours_for_week
+    employee = Employee.find(params[:employee_id])
+    date = DateTime.parse(params[:date])
+    
+    hours = {      
+      :employee_id => employee.id,
+      :total_hours => employee.shifts.where(:start => date.beginning_of_week..date.end_of_week).sum{|x| x.duration},
+      :week_start => date.beginning_of_week,
+      :week_end => date.end_of_week,
+    }
+
+    respond_to do |format|
+      format.json { render json: hours }
+    end
+  end
 end

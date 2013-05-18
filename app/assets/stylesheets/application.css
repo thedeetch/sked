@@ -23,3 +23,8 @@ th.fc-resourceName
 {
 	width: 200px;
 }
+div.fc-event-inner #deleteEvent
+{
+	display: inline-block;
+	float: right;
+}

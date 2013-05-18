@@ -14,6 +14,7 @@ Sked::Application.routes.draw do
     post 'time_off' => 'time_off#create'
     put 'time_off/:id' => 'time_off#update'
     delete 'time_off/:id' => 'time_off#delete'
+    get 'hours/:date' => 'employees#hours_for_week'
   end
   
   resources :departments do
