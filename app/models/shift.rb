@@ -9,6 +9,11 @@ class Shift < ActiveRecord::Base
       h['title'] = self.department.name
       h['allDay'] = false
       h['resource'] = self.employee_id
+      h['duration'] = self.duration
       h
+  end
+
+  def duration
+  	(self.end - self.start) / 1.hour
   end
 end
