@@ -40,7 +40,7 @@
 			columnFormat: "HH<br>mm",
 			resources: "/shift/resources/<%= @department.id %>/<%= @date.strftime(@urlFormat) %>",
 			events: "/shift/<%= @department.id %>/<%= @date.strftime(@urlFormat) %>.json",
-			ignoreTimezone: true,
+			ignoreTimezone: false,
 			eventDataTransform: function (eventData) { 
 				eventData.title = eventData.department_id;
 				eventData.allDay = false;
@@ -68,8 +68,8 @@
 									start: start,
 									end: end,
 									department_id: <%= @department.id %>,
-									employee_id: resource.id
-             					}
+									employee_id: resource.id,
+             					},
              				}
 						});
 
@@ -100,6 +100,26 @@
 			{
 				$('#deleteEvent').remove();
 			},
+			eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) 
+			{
+				if (event.resource instanceof Array){
+					event.resource = event.resource[0];
+				}
+				$.ajax(
+				{
+					url: "/shift/" + event.id + ".json",
+					type: "PUT",
+					data: {
+						shift: {
+							id: event.id,
+							employee_id: event.resource,
+							department_id: <%= @department.id %>,
+							start: event.start,
+							end: event.end,
+						}
+					},
+				});
+			},
 		});
 		//$('#calendar th').each(function () {
     	//	$(this).css({"width": ""});
@@ -107,6 +127,4 @@
     	//$(window).off("resize");
     	$('.fc-grid table').addClass("table table-striped table-bordered table-condensed");
 	});
-
-
 </script>
