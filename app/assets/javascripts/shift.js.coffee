@@ -98,6 +98,6 @@ $ ->
 		eventMouseout: ( event, jsEvent, view ) -> $('#deleteEvent').remove()
 		eventDrop: (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) -> updateShift(event)
 		eventResize: (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) -> updateShift(event)
-	#calendar.fullCalendar(options)
+	calendar.fullCalendar(options)
 
 # $('.fc-grid table').addClass("table table-striped table-bordered table-condensed");
