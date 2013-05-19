@@ -15,3 +15,6 @@
 	@extend .table-bordered;
 	@extend .table-condensed;
 }
+.fc-grid .table thead th {
+	text-align: center;
+}

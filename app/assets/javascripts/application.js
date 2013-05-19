@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-#= require twitter/bootstrap
-//= require jquery.ui.all
+//= require jquery.ui.draggable
+//= require jquery.ui.resizable
+//= require jquery.ui.datepicker
 //= require_tree .

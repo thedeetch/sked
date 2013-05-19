@@ -14,19 +14,19 @@
  /* Events
 -----------------------------------------------------*/
  
-.fc-event {
+/*.fc-event {
 	background: #fff !important;
 	color: #000 !important;
-	}
+	}*/
 	
 /* for vertical events */
 	
-.fc-event-bg {
+/*.fc-event-bg {
 	display: none !important;
 	}
 	
 .fc-event .ui-resizable-handle {
 	display: none !important;
-	}
+	}*/
 	
 	
