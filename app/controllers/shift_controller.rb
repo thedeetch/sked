@@ -49,7 +49,7 @@ class ShiftController < ApplicationController
 
   def update
     @shift = Shift.find(params[:id])
-    Rails.logger.debug(params[:shift])
+    
     respond_to do |format|
       if @shift.update_attributes(params[:shift])
         format.html { redirect_to @shift, notice: 'Employee was successfully updated.' }

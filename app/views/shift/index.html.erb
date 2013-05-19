@@ -65,8 +65,8 @@
 							{
 								shift: 
 								{
-									start: start,
-									end: end,
+									start: start.toUTCString(),
+									end: end.toUTCString(),
 									department_id: <%= @department.id %>,
 									employee_id: resource.id,
              					},
@@ -77,7 +77,7 @@
 			},
 			eventClick: function(calEvent, jsEvent, view) {
         	    // change the border color just for fun
-        		$(this).css('border-color', 'red');
+        		//$(this).css('border-color', 'red');
 			},
 			eventMouseover: function ( event, jsEvent, view ) 
 			{
@@ -105,6 +105,7 @@
 				if (event.resource instanceof Array){
 					event.resource = event.resource[0];
 				}
+				alert($.fullCalendar.parseDate(event.start).toUTCString());
 				$.ajax(
 				{
 					url: "/shift/" + event.id + ".json",
@@ -114,8 +115,8 @@
 							id: event.id,
 							employee_id: event.resource,
 							department_id: <%= @department.id %>,
-							start: event.start,
-							end: event.end,
+							start: $.fullCalendar.parseDate(event.start).toUTCString(),
+							end: $.fullCalendar.parseDate(event.end).toUTCString(),
 						}
 					},
 				});
