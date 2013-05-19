@@ -10,9 +10,9 @@
  *
  * require_self
  *= require jquery.ui.all
+ *= require fullcalendar/fullcalendar
  *= require bootstrap_and_overrides
  * require_tree .
- *= require fullcalendar/fullcalendar
  */
 .fc-content th
 {

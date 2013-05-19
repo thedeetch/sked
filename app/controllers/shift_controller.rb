@@ -16,7 +16,7 @@ class ShiftController < ApplicationController
     first = DateTime.strptime(params[:start] || "0", '%s')
     last = DateTime.strptime(params[:end] || "0", '%s')
 
-    @shifts = Shift.where('"department_id" = :department_id AND "end" >= :first AND "start" <= :last', {:department_id => @department.id, :first => first, :last => last})
+    @shifts = Shift.where(:department_id => @department.id).where(Shift.arel_table[:end].gt(first)).where(Shift.arel_table[:start].lt(last))
 
     respond_to do |format|
       format.html # index.html.erb

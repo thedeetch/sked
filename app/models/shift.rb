@@ -6,9 +6,6 @@ class Shift < ActiveRecord::Base
 
   def as_json(options = { })
       h = super(options)
-      h['title'] = self.department.name
-      h['allDay'] = false
-      h['resource'] = self.employee_id
       h['duration'] = self.duration
       h
   end
