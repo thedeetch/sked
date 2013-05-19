@@ -94,17 +94,25 @@
 			},
 			eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) 
 			{
-				$.ajax(
-				{
-					url: "/shift/" + event.id + ".json",
-					type: "PUT",
-					data: eventToShift(event),
-				});
+				updateShift(event);
+			},
+			eventResize: function( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) 
+			{
+				updateShift(event);
 			},
 		});
     	$('.fc-grid table').addClass("table table-striped table-bordered table-condensed");
 	});
-
+	
+	function updateShift(event)
+	{
+		$.ajax(
+		{
+			url: "/shift/" + event.id + ".json",
+			type: "PUT",
+			data: eventToShift(event),
+		});
+	}
 	function eventToShift(event)
 	{
 		if (event.resource instanceof Array)
