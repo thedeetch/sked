@@ -52,7 +52,8 @@ shiftToEvent = (shift) ->
 	category: shift.category ?= 'shift'
 
 $ ->
-	return false if page isnt 'shift'
+	#alert(page_tab)
+	return false if page_tab isnt 'shifts'
 	calendar = $('#calendar')
 	date = $('#date')
 
@@ -138,3 +139,4 @@ $ ->
 			element.find('.fc-event-inner').append(controldiv)
 
 	$(calendar).fullCalendar(options)
+	$('div.fc-content table').addClass('table table-striped table-bordered table-condensed')
