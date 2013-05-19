@@ -16,13 +16,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<title><%= content_for?(:title) ? yield(:title) : "Sked | " + @page_tab %></title>
-
-		<!-- Included CSS Files -->
-		<%= stylesheet_link_tag    "application" %>
-
-		<!-- Included JS Files  -->
-		<%= javascript_include_tag "application" %>
-
+		
 		<%= csrf_meta_tags %>
 	</head>
 	<body>
@@ -78,4 +72,9 @@
 			</div>
 		</div>
 	</body>
+	<!-- Included CSS Files -->
+	<%= stylesheet_link_tag    "application" %>
+
+	<!-- Included JS Files  -->
+	<%= javascript_include_tag "application" %>
 </html>
