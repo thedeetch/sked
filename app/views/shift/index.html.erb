@@ -105,7 +105,7 @@
 				if (event.resource instanceof Array){
 					event.resource = event.resource[0];
 				}
-				alert($.fullCalendar.parseDate(event.start).toUTCString());
+
 				$.ajax(
 				{
 					url: "/shift/" + event.id + ".json",
