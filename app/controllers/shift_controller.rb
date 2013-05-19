@@ -12,7 +12,11 @@ class ShiftController < ApplicationController
     @date = DateTime.parse(params[:date] || Time.now.to_s)
     @urlFormat = "%Y%m%d"
     @textFormat = "%m/%d/%Y"
-    @shifts = Shift.where(:department_id => @department.id,  :start => @date..(@date + 1))
+
+    first = DateTime.strptime(params[:start] || "0", '%s')
+    last = DateTime.strptime(params[:end] || "0", '%s')
+
+    @shifts = Shift.where("department_id = :department_id AND end >= :first AND start <= :last", {:department_id => @department.id, :first => first, :last => last})
 
     respond_to do |format|
       format.html # index.html.erb
@@ -49,7 +53,7 @@ class ShiftController < ApplicationController
 
   def update
     @shift = Shift.find(params[:id])
-    
+
     respond_to do |format|
       if @shift.update_attributes(params[:shift])
         format.html { redirect_to @shift, notice: 'Employee was successfully updated.' }
