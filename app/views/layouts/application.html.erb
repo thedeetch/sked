@@ -18,6 +18,9 @@
 		<title><%= content_for?(:title) ? yield(:title) : "Sked | " + @page_tab %></title>
 		
 		<%= csrf_meta_tags %>
+
+		<!-- Included CSS Files -->
+		<%= stylesheet_link_tag "application" %>
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -75,9 +78,8 @@
 	<script>
 		var page_tab = '<%= @page_tab %>';
 	</script>
-	<!-- Included CSS Files -->
-	<%= stylesheet_link_tag    "application" %>
+
 
 	<!-- Included JS Files  -->
-	<%= javascript_include_tag "application" %>
+	<%= javascript_include_tag "application", :async => "async" %>
 </html>
