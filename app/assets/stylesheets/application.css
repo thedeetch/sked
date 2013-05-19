@@ -15,6 +15,7 @@
  *= require bootstrap_and_overrides
  *= require_tree .
  */
+
 .fc-content th
 {
   font-size: xx-small;
@@ -23,9 +24,4 @@
 th.fc-resourceName
 {
 	width: 200px;
-}
-div.fc-event-inner #deleteEvent
-{
-	display: inline-block;
-	float: right;
 }

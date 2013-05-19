@@ -15,6 +15,41 @@
 	@extend .table-bordered;
 	@extend .table-condensed;
 }
-.fc-grid .table thead th {
-	text-align: center;
+
+.fc-grid .table thead th
+{
+	text-align: center
+}
+
+div.fc-event-inner:hover .eventOptions
+{
+	display: inherit;
+}
+
+div.eventOptions
+{
+	display: none;
+	float: right;
+}
+
+span.eventOption
+{
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+div.lunch
+{
+	background-color: red;
+	border-color: red;
+}
+div.timeoff
+{
+	background-color: purple;
+	border-color: purple;
+}
+div.shift
+{
+	background-color: blue;
+	border-color: blue;
 }
