@@ -72,7 +72,8 @@ $ ->
 				{
 					type: "POST"
 					data: eventToShift(event)
-					success: (data) -> calendar.fullCalendar('renderEvent', shiftToEvent(data))
+					success: (data) ->
+						calendar.fullCalendar('renderEvent', shiftToEvent(data))
 				}
 
 			calendar.fullCalendar('unselect')
