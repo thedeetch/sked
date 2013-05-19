@@ -31,6 +31,7 @@ module Sked
     
     # Make ActiveRecord store dates in local time
     # config.active_record.default_timezone = :local
+    config.active_record.default_timezone = :utc
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
