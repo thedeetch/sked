@@ -17,7 +17,7 @@ updateShift = (event) ->
 		data: eventToShift(event)
 		success: -> 
 			$(calendar).fullCalendar('refetchResources')
-			$(calendar).fullCalendar('rerenderEvents')
+			$(calendar).fullCalendar('render')
 
 deleteShift = (event) ->
 	$.ajax "/shifts/" + event.id + ".json",
@@ -25,7 +25,7 @@ deleteShift = (event) ->
 		success: -> 
 			$(calendar).fullCalendar('refetchResources')
 			$(calendar).fullCalendar('removeEvents', event.id)
-			$(calendar).fullCalendar('rerenderEvents')
+			$(calendar).fullCalendar('render')
 
 createShift = (event) ->
 	$(calendar).fullCalendar('unselect')
@@ -34,8 +34,10 @@ createShift = (event) ->
 		type: "POST"
 		data: eventToShift(event)
 		success: (data) ->
-			$(calendar).fullCalendar('renderEvent', shiftToEvent(data), true)
 			$(calendar).fullCalendar('refetchResources')
+			$(calendar).fullCalendar('renderEvent', shiftToEvent(data), true)
+			$(calendar).fullCalendar('render')
+
 			
 eventToShift = (event) ->
 	return shift:
