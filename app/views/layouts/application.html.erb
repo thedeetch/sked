@@ -41,7 +41,7 @@
 						<li class="dropdown<%= " active" if @page_tab == "schedule" %>">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Schedule <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><%= link_to "Edit", shift_path %></li>
+								<li><%= link_to "Edit", shifts_path %></li>
 								<li><a href="#">Time Off</a></li>
 								<li><a href="#">Reports</a></li>
 							</ul>							
@@ -78,8 +78,6 @@
 	<script>
 		var page_tab = '<%= @page_tab %>';
 	</script>
-
-
 	<!-- Included JS Files  -->
-	<%= javascript_include_tag "application", :async => "async" %>
+	<%= javascript_include_tag "application", :async => Rails.env.production? ? "async" : nil %>
 </html>

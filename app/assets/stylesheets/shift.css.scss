@@ -44,3 +44,8 @@ div.shift
 	background-color: blue;
 	border-color: blue;
 }
+input#date
+{
+	position: relative; 
+	z-index: 100000;
+}

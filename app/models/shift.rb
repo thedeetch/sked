@@ -12,6 +12,13 @@ class Shift < ActiveRecord::Base
   end
 
   def duration
-  	(self.end - self.start) / 1.hour
+    case self.category
+    when "lunch"
+      -(self.end - self.start) / 1.hour
+    when "shift"
+      (self.end - self.start) / 1.hour
+    else
+      0
+    end
   end
 end

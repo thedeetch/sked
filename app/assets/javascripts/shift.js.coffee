@@ -2,27 +2,30 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-updateResource = (resource) ->
-	date = $.fullCalendar.formatDate($(calendar).fullCalendar('getDate'), 'yyyyMMdd')
-	$.ajax "/employees/" + resource + "/hours/" + date + ".json",
-		type: "GET"
-		success: (data) ->
-			alert(data.total_hours)
+updateResource = (resource, element) =>
+	$(element).html('')
+	$(element)
+		.append($('<span/>', text: resource.name, class: 'resource-name'))
+		.append($('<br>'))
+		.append($('<small/>', text: "Today: " + resource.hours.total_day + 'h', class: 'resource-detail'))
+		.append($('<br>'))
+		.append($('<small/>', text: "Week: " + resource.hours.total_week + 'h', class: 'resource-detail'))
 
 updateShift = (event) ->
 	$.ajax "/shift/" + event.id + ".json",
 		type: "PUT"
 		data: eventToShift(event)
 		success: -> 
-			updateResource(event.resource)
+			$(calendar).fullCalendar('refetchResources')
 			$(calendar).fullCalendar('rerenderEvents')
 
 deleteShift = (event) ->
 	$.ajax "/shift/" + event.id + ".json",
 		type: "DELETE"
 		success: -> 
-			updateResource(event.resource)
+			$(calendar).fullCalendar('refetchResources')
 			$(calendar).fullCalendar('removeEvents', event.id)
+			$(calendar).fullCalendar('rerenderEvents')
 
 createShift = (event) ->
 	$(calendar).fullCalendar('unselect')
@@ -31,8 +34,8 @@ createShift = (event) ->
 		type: "POST"
 		data: eventToShift(event)
 		success: (data) ->
-			updateResource(data.employee_id)
 			$(calendar).fullCalendar('renderEvent', shiftToEvent(data), true)
+			$(calendar).fullCalendar('refetchResources')
 			
 eventToShift = (event) ->
 	return shift:
@@ -46,13 +49,13 @@ eventToShift = (event) ->
 shiftToEvent = (shift) ->
 	id: shift.id
 	resource: shift.employee_id
-	title: shift.department_name
+	title: shift.department_name + shift.duration
 	start: shift.start
 	end: shift.end
 	category: shift.category ?= 'shift'
+	duration: shift.duration
 
 $ ->
-	#alert(page_tab)
 	return false if page_tab isnt 'shifts'
 	calendar = $('#calendar')
 	date = $('#date')
@@ -62,9 +65,9 @@ $ ->
 
 	options =
 		header:
-			left: 'title'
-			center: 'today prev,next'
-			right: 'resourceWeek resourceDay'
+			left: ''
+			center: ''
+			right: ''
 		year: date.datepicker("getDate").getFullYear()
 		month: date.datepicker("getDate").getMonth()
 		date: date.datepicker("getDate").getDate()
@@ -75,10 +78,11 @@ $ ->
 		selectable: true
 		minTime: 4
 		maxTime: 22
-		selectHelper: true
+		selectHelper: false
+		refetchResources: true
 		columnFormat: "HH<br>mm"
-		resources: "/shift/resources/" + department.id + "/" + date_format
-		events: "/shift/" + department.id + ".json"
+		resources: "/shifts/resources/" + department.id + ".json"
+		events: "/shifts/" + department.id + ".json"
 		ignoreTimezone: false
 		selectable: true
 		eventDataTransform: (eventData) -> shiftToEvent(eventData)
@@ -137,6 +141,9 @@ $ ->
 			)
 
 			element.find('.fc-event-inner').append(controldiv)
+		resourceRender: (resource, element, view) -> updateResource(resource, element)
+		viewDisplay: (view) ->
+			$('div.fc-content table').addClass('table table-striped table-bordered table-condensed')
+			$(date).datepicker('setDate', $(calendar).fullCalendar('getDate'))
 
 	$(calendar).fullCalendar(options)
-	$('div.fc-content table').addClass('table table-striped table-bordered table-condensed')

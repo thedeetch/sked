@@ -1,20 +1,16 @@
 Sked::Application.routes.draw do
-  get "home/index"
+  # get "home/index"
   
-  match "/shifts/(:department_id)/(:date)" => 'shift#index', :as => :shift
+  # match "/shifts/(:department_id)/(:date)" => 'shift#index', :as => :shift
   match "employees/time_off" => 'time_off#index', :as => :time_off
 
-  resources :shift do
-    get 'resources/:department_id/(:date)' => 'shift#resources', on: :collection
-    get ':department_id/(:date)' => 'shift#index', on: :collection
+  resources :shifts, :except => [:show] do
+    get 'resources/:department_id' => 'shifts#resources', on: :collection
+    get ':department_id' => 'shifts#index', on: :collection
   end
 
   resources :employees do
-    get 'time_off/(:date)' => 'time_off#show', :as => :time_off
-    post 'time_off' => 'time_off#create'
-    put 'time_off/:id' => 'time_off#update'
-    delete 'time_off/:id' => 'time_off#delete'
-    get 'hours/:date' => 'employees#hours_for_week'
+    get 'hours/:date' => 'employees#hours'
   end
   
   resources :departments do

@@ -4921,7 +4921,7 @@ function ResourceView(element, calendar, viewName) {
 			resourceName = resources[i]['name'];
 			
 			s +=
-				"<tr class='fc-resourcerow-" + id + "'><td class='fc-resourceName'>" + resourceName + "</td>";
+				"<tr class='fc-resourcerow-" + id + "'><td class='fc-resourceName' data-resource='" + id +"'>" + resourceName + "</td>";
 			for (j=0; j<colCnt; j++) {
 				s +=
 					"<td class='fc- " + contentClass + " fc-day" + j + " fc-resource" + id +"'>" + // need fc- for setDayID
@@ -4953,7 +4953,7 @@ function ResourceView(element, calendar, viewName) {
 		bodyCellTopInners = bodyRows.eq(0).find('div.fc-day-content div');
 		
 		// trigger resourceRender callback now when the skeleton is ready
-		body.find('td.fc-resourceName').each(function(resourceElement) {
+		body.find('td.fc-resourceName').each(function(i, resourceElement) {
 			trigger('resourceRender', resources[i], resources[i], resourceElement);
 		});
 

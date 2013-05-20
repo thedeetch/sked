@@ -81,16 +81,17 @@ class EmployeesController < ApplicationController
     end
   end
 
-  # GET /employees/1/hours/?date=20100305
-  def hours_for_week
+  # GET /employees/1/hours/20100305
+  def hours
     employee = Employee.find(params[:employee_id])
     date = DateTime.parse(params[:date])
-    
+
     hours = {      
-      :employee_id => employee.id,
-      :total_hours => employee.shifts.where(:start => date.beginning_of_week..date.end_of_week).sum{|x| x.duration},
-      :week_start => date.beginning_of_week,
-      :week_end => date.end_of_week,
+      :employee => employee,
+      :total_hours_day => employee.shifts.where(:start => date.beginning_of_day..date.end_of_day).sum{|x| x.duration},
+      :total_hours_week => employee.shifts.where(:start => date.beginning_of_week..date.end_of_week).sum{|x| x.duration},
+      :total_hours_month => employee.shifts.where(:start => date.beginning_of_month..date.end_of_month).sum{|x| x.duration},
+      :total_hours_year => employee.shifts.where(:start => date.beginning_of_year..date.end_of_year).sum{|x| x.duration},
     }
 
     respond_to do |format|
