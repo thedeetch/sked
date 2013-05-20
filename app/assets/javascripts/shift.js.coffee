@@ -12,7 +12,7 @@ updateResource = (resource, element) =>
 		.append($('<small/>', text: "Week: " + resource.hours.total_week + 'h', class: 'resource-detail'))
 
 updateShift = (event) ->
-	$.ajax "/shift/" + event.id + ".json",
+	$.ajax "/shifts/" + event.id + ".json",
 		type: "PUT"
 		data: eventToShift(event)
 		success: -> 
@@ -20,7 +20,7 @@ updateShift = (event) ->
 			$(calendar).fullCalendar('rerenderEvents')
 
 deleteShift = (event) ->
-	$.ajax "/shift/" + event.id + ".json",
+	$.ajax "/shifts/" + event.id + ".json",
 		type: "DELETE"
 		success: -> 
 			$(calendar).fullCalendar('refetchResources')
@@ -30,7 +30,7 @@ deleteShift = (event) ->
 createShift = (event) ->
 	$(calendar).fullCalendar('unselect')
 	$('.fc-cell-overlay').hide()
-	$.ajax "/shift.json",
+	$.ajax "/shifts.json",
 		type: "POST"
 		data: eventToShift(event)
 		success: (data) ->
