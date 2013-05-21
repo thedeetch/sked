@@ -3,13 +3,14 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 updateResource = (resource, element) =>
-	$(element).html('')
-	$(element)
-		.append($('<span/>', text: resource.name, class: 'resource-name'))
-		.append($('<br>'))
-		.append($('<small/>', text: "Today: " + resource.hours.total_day + 'h', class: 'resource-detail'))
-		.append($('<br>'))
-		.append($('<small/>', text: "Week: " + resource.hours.total_week + 'h', class: 'resource-detail'))
+	$(element).empty()
+	$(element).append(
+		$('<span/>', text: resource.name, class: 'resource-name')
+		.add($('<br>'))
+		.add($('<small/>', text: "Today: " + resource.hours.total_day + 'h', class: 'resource-detail'))
+		.add($('<br>'))
+		.add($('<small/>', text: "Week: " + resource.hours.total_week + 'h', class: 'resource-detail'))
+	)
 
 updateShift = (event) ->
 	$.ajax "/shifts/" + event.id + ".json",
@@ -17,7 +18,9 @@ updateShift = (event) ->
 		data: eventToShift(event)
 		success: -> 
 			$(calendar).fullCalendar('refetchResources')
+			$(calendar).fullCalendar('rerenderEvents')
 			$(calendar).fullCalendar('render')
+
 
 deleteShift = (event) ->
 	$.ajax "/shifts/" + event.id + ".json",
@@ -48,13 +51,9 @@ eventToShift = (event) ->
 		category: event.category ?= 'shift'
 
 shiftToEvent = (shift) ->
-	id: shift.id
-	resource: shift.employee_id
-	title: if shift.category is 'shift' then shift.department_name else shift.category ?= 'shift'
-	start: shift.start
-	end: shift.end
-	category: shift.category ?= 'shift'
-	duration: shift.duration
+	shift.resource = shift.employee_id
+	shift.title = if shift.category is 'shift' then shift.department_name else shift.category ?= 'shift'
+	shift
 
 $ ->
 	return false if page_tab isnt 'shifts'
@@ -86,6 +85,8 @@ $ ->
 		events: "/shifts/" + department.id + ".json"
 		ignoreTimezone: false
 		selectable: true
+		height: null
+		contentHeight: null
 		eventDataTransform: (eventData) -> shiftToEvent(eventData)
 		select: (start, end, allDay, jsEvent, view, resource) ->
 			createShift
@@ -94,11 +95,14 @@ $ ->
 				resource: resource.id
 		eventDrop: (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) -> updateShift(event)
 		eventResize: (event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ) -> updateShift(event)
-		eventAfterRender: (event, element, view) ->
+		eventRender: (event, element, view) ->
 			element = $(element)
 			classes = 'lunch shift timeoff'
 			innerdiv = element.find('.fc-event-inner')
 			innerdiv.contents().filter(-> return this.nodeType is 3)[0].nodeValue = " "
+			
+			# Set title
+			innerdiv.find('.fc-event-title').text(if event.category is 'shift' then event.department_name else event.category ?= 'shift')
 
 			# Set event style
 			element.removeClass(classes).addClass(event.category).attr('title', event.category)
@@ -144,9 +148,13 @@ $ ->
 			)
 
 			element.find('.fc-event-inner').append(controldiv)
+			return true
 		resourceRender: (resource, element, view) -> updateResource(resource, element)
 		viewDisplay: (view) ->
 			$('div.fc-content table').addClass('table table-striped table-bordered table-condensed')
 			$(date).datepicker('setDate', $(calendar).fullCalendar('getDate'))
 
 	$(calendar).fullCalendar(options)
+	# Need to reset date to fix a bug in fullCalendar on inital load
+	# when events are updated, their placing would get messed up.
+	$(calendar).fullCalendar('gotoDate', date.datepicker("getDate"))
