@@ -37,7 +37,6 @@ createShift = (event) ->
 			$(calendar).fullCalendar('refetchResources')
 			$(calendar).fullCalendar('renderEvent', shiftToEvent(data), true)
 			$(calendar).fullCalendar('render')
-
 			
 eventToShift = (event) ->
 	return shift:
@@ -51,7 +50,7 @@ eventToShift = (event) ->
 shiftToEvent = (shift) ->
 	id: shift.id
 	resource: shift.employee_id
-	title: shift.department_name + shift.duration
+	title: if shift.category is 'shift' then shift.department_name else shift.category ?= 'shift'
 	start: shift.start
 	end: shift.end
 	category: shift.category ?= 'shift'
@@ -98,6 +97,8 @@ $ ->
 		eventAfterRender: (event, element, view) ->
 			element = $(element)
 			classes = 'lunch shift timeoff'
+			innerdiv = element.find('.fc-event-inner')
+			innerdiv.contents().filter(-> return this.nodeType is 3)[0].nodeValue = " "
 
 			# Set event style
 			element.removeClass(classes).addClass(event.category).attr('title', event.category)
